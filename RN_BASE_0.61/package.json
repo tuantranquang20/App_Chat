@@ -10,7 +10,8 @@
     "li": "node generateAssetResource.js",
     "iosdevice": "react-native run-ios --device \"6S\"",
     "lint": "eslint .",
-    "reverse": "adb reverse tcp:9090 tcp:9090; adb reverse tcp:19001 tcp:19001;"
+    "reverse": "adb reverse tcp:9090 tcp:9090; adb reverse tcp:19001 tcp:19001;",
+    "pod" : "cd ios && pod install"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
