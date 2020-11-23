@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env DEBUG=express-sequelize node ./bin/www",
+    "start": "nodemon ./bin/www --exec babel-node",
     "wstart": "set DEBUG=express-base:*,app:* & nodemon ./bin/www",
     "devstart": "nodemon ./bin/www",
     "devdebug": "DEBUG=express-base:*,app:* nodemon --inspect ./bin/www",
@@ -14,21 +14,32 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "composable-middleware": "^0.3.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "hat": "^0.0.3",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.15",
+    "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.9.1",
     "mysql2": "^2.1.0",
     "pug": "2.0.0-beta11",
     "sequelize": "^5.21.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/polyfill": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "cross-env": "^7.0.2",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.6",
     "sequelize-auto-models": "^0.2.14"
   },
   "_moduleAliases": {
