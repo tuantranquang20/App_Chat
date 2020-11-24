@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 require('module-alias/register') 
-var app = require('../src/app');
+var app = require('../app');
 var debug = require('debug')('source:src');
 var http = require('http');
 

@@ -2,13 +2,14 @@ const Sequelize = require("sequelize");
 const { debug } = require("../utils/constant");
 const CONSTANT = require("../utils/constant");
 
+// const USER = require('./models/USER.js');
+
 const env = {
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  // password: process.env.DB_PASSWORD || "123456Aa@",
-  password: process.env.DB_PASSWORD || "Kasonlu@0808",
+  password: process.env.DB_PASSWORD || "123456Aa@",
   database: process.env.DB_NAME || "kasonlu"
-}
+};
 
 const sequelize = new Sequelize(env.database, env.user, env.password, {
   host: env.host,
@@ -32,6 +33,3 @@ const sequelize = new Sequelize(env.database, env.user, env.password, {
 });
 
 module.exports = sequelize;
-
-
-
