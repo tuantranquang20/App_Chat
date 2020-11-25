@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "33dfe41f-f7e2-4673-a149-f1fd67ba0c51",
+		"name": "ChatApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"email\" : \"tuantranquang20@gmail.com\",\n \"phone\" : \"0367173691\",\n \"name\" : \"Grey\",\n \"avatar\" : \"https://scontent-sin6-1.xx.fbcdn.net/v/t1.0-9/125209882_1275481509473797_8819946755344689362_o.jpg?_nc_cat=111&ccb=2&_nc_sid=09cbfe&_nc_ohc=et9D8o5QxCoAX97TnQ5&_nc_oc=AQlIjoZA9Qwb1jigx7pXV9PnNqsWJV9EzRqkG9Ce5kc6NV2PebHG3Tt7WE7OGsOXvjA&_nc_ht=scontent-sin6-1.xx&oh=b7dfa2109d047bde4238d0af52a1ebc5&oe=5FE42C1F\" ,\n \"password\" : \"pass1234\",\n \"passwordConfirm\": \"pass1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "77885a82-ab3e-4776-b329-5f2ec7bb60fd",
+						"exec": [
+							"pm.environment.set(\"token\", pm.response.json().token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\" : \"0367173691\",\n    \"password\" : \"pass1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/login",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get room chat",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

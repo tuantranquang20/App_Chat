@@ -31,29 +31,27 @@ const createSendToken = (user, req, res) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { phone, password } = req.body;
+    if (!phone || !password) {
       res.json({
         status: 0,
-        message: "Nhập email và password !",
+        message: "Nhập phone và password !",
       });
     }
-    const user = await User.findOne(req.body);
-    if (!user) {
+    const user = await User.findOne({ phone }).select("+password");
+    if (!user || !(await user.correctPassword(password, user.password))) {
       return res.json({
         status: 0,
-        message: "Nhập email hoặc password không đúng !",
+        message: "Nhập phone hoặc password không đúng !",
       });
     }
     // Tim dc tài khoản đó thì bắn cho nó 1 cái token
-    // req.user = user;
+    req.users = user;
     createSendToken(user, req, res);
   } catch (error) {}
 };
 
 exports.protected = async (req, res, next) => {
-  // console.log("cứ vào đây làm lz gì");
-  // console.log(req.baseUrl , "cái đ gì vậy");
   try {
     let token;
     //kiểm tra xem có token
@@ -80,13 +78,13 @@ exports.protected = async (req, res, next) => {
       });
     }
     //rồi tìm xem cái pass của nó đã bị thay đổi chưa
-    const changePass = checkUser.changePassAfter(decoded.iat);
-    if (changePass) {
-      res.json({
-        status: 0,
-        message: "Đăng nhập lại, password đã bị thay đổi !",
-      });
-    }
+    // const changePass = checkUser.changePassAfter(decoded.iat);
+    // if (changePass) {
+    //   res.json({
+    //     status: 0,
+    //     message: "Đăng nhập lại, password đã bị thay đổi !",
+    //   });
+    // }
     //nếu chưa đổi thì req.user = cái User vừa mới tìm đc trong db
     req.user = checkUser;
     //tất cả ổn thì next()

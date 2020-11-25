@@ -11,12 +11,13 @@
     "iosdevice": "react-native run-ios --device \"6S\"",
     "lint": "eslint .",
     "reverse": "adb reverse tcp:9090 tcp:9090; adb reverse tcp:19001 tcp:19001;",
-    "pod" : "cd ios && pod install"
+    "pod": "cd ios && pod install"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/google-signin": "^3.0.2",
     "axios": "^0.19.0",
+    "firebase": "^7.24.0",
     "react": "16.9.0",
     "react-i18next": "^9.0.10",
     "react-native": "0.61.2",
