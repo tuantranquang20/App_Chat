@@ -15,7 +15,7 @@ export default class HomeScreen extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Text>Abc ksakljd</Text>
+                <Text>Abc kesakljd</Text>
             </View>
         );
     }
