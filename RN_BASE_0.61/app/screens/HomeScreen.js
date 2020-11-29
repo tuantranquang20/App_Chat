@@ -15,7 +15,7 @@ export default class HomeScreen extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <Text>RNCA Home </Text>
+                <Text>Abc ksakljd</Text>
             </View>
         );
     }
