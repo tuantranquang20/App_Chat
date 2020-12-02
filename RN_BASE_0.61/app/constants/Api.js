@@ -1,18 +1,22 @@
 import axios from "axios";
-import { AsyncStorage, Alert } from "react-native";
+import { Alert } from "react-native";
 import NavigationUtil from "../navigation/NavigationUtil";
 import I18n from "../i18n/i18n";
+import reactotron from "reactotron-react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 function createAxios() {
   // AsyncStorage.setItem("token", '773DE1FE9732F26F7552BC921CBE347E')
   var axiosInstant = axios.create();
-  axiosInstant.defaults.baseURL = "http://150.95.115.192:8021/";
+  axiosInstant.defaults.baseURL = "http://192.168.43.100:3001/";
   axiosInstant.defaults.timeout = 20000;
   axiosInstant.defaults.headers = { "Content-Type": "application/json" };
 
   axiosInstant.interceptors.request.use(
     async config => {
-      config.headers.token = await AsyncStorage.getItem("token");
+      config.headers.Authorization = `Bearer ${await AsyncStorage.getItem(
+        "TOKEN"
+      )}`;
       return config;
     },
     error => Promise.reject(error)
@@ -24,10 +28,10 @@ function createAxios() {
         Alert.alert("Thông báo", I18n.t("relogin"));
       }, 100);
 
-      AsyncStorage.setItem("token", "", () => {
-        NavigationUtil.navigate("Auth");
-      });
-    } else if (response.data && response.data.status != 1) {
+      // AsyncStorage.setItem("token", "", () => {
+      //   NavigationUtil.navigate("Auth");
+      // });
+    } else if (response.data && response.data.status != "success") {
       setTimeout(() => {
         Alert.alert("Thông báo", response.data.message);
       }, 100);
@@ -42,18 +46,18 @@ export const getAxios = createAxios();
 /* Support function */
 function handleResult(api) {
   return api.then(res => {
-    if (res.data.status != 1) {
+    if (res.data.status != "success") {
       return Promise.reject(new Error("Co loi xay ra"));
     }
     return Promise.resolve(res.data);
   });
 }
 
-export const requestLogin = payload => {
+export const requestLogin = (username, password) => {
   return handleResult(
-    getAxios.post("api/Service/LoginApp", {
-      value: payload.value,
-      type: payload.type
+    getAxios.post("users/login", {
+      phone: username,
+      password: password
     })
   );
 };
@@ -63,5 +67,3 @@ export const requestHomeData = (deviceID = "") => {
     getAxios.get(`api/Service/GetHomeScreen?deviceID=${deviceID}`)
   );
 };
-
-

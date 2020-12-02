@@ -10,12 +10,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Bạn phải nhập tên !"],
   },
-  email: {
-    type: String,
-    required: [true, "Bạn phải nhập email !"],
-    unique: true,
-    validate: [validator.isEmail, "Nhập đúng định dạng email !"],
-  },
   phone: {
     type: String,
     unique: true,
@@ -36,17 +30,6 @@ const userSchema = new mongoose.Schema({
     required: [true, "Bạn phải nhập mật khẩu !"],
     select: false,
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, "Bạn phải nhập xác nhận mật khẩu !"],
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: "Xác nhận mật khẩu lỗi !",
-    },
-    select: false,
-  },
   active: {
     type: Boolean,
     default: true,
@@ -60,7 +43,6 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   //del password confirm ? k xoá dc
-  this.passwordConfirm = await bcrypt.hash(this.passwordConfirm, 12);
   return next();
 });
 //hash password khi đăng nhập
