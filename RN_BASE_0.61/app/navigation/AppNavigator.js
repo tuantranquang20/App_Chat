@@ -96,10 +96,11 @@ export default createAppContainer(
     {
       [SCREEN_ROUTER.AUTH_LOADING]: AuthLoadingScreen,
       [SCREEN_ROUTER.AUTH]: Auth,
-      [SCREEN_ROUTER.MAIN]: Main
+      [SCREEN_ROUTER.MAIN]: Main,
+      [SCREEN_ROUTER.USER]: UserScreen
     },
     {
-      initialRouteName: SCREEN_ROUTER.Auth
+      initialRouteName: SCREEN_ROUTER.USER
     }
   )
 );
