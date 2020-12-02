@@ -17,6 +17,8 @@ import metrics from "../../../constants/metrics";
 import Opening from "./Opening";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
+import { colors } from "@app/constants/Theme";
+import { IconFirebase } from "@app/assets/svg/svg";
 
 const IMAGE_WIDTH = metrics.DEVICE_WIDTH * 0.8;
 
@@ -30,7 +32,7 @@ export default class AuthScreen extends Component {
     visibleForm: null
   };
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       this._hideAuthScreen();
     }
@@ -63,7 +65,7 @@ export default class AuthScreen extends Component {
             delay={200}
             ref={ref => (this.logoImgRef = ref)}
             style={styles.logoImg}
-            source={require("../../../assets/images/logo_firebase.png")}
+            source={require("../../../assets/images/firebase_icon.png")}
           />
           {!visibleForm && !isLoggedIn && (
             <Opening
