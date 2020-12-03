@@ -100,7 +100,7 @@ export default createAppContainer(
       [SCREEN_ROUTER.USER]: UserScreen
     },
     {
-      initialRouteName: SCREEN_ROUTER.USER
+      initialRouteName: SCREEN_ROUTER.Auth
     }
   )
 );

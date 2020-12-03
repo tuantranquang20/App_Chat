@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: "center",
     flexDirection: "row",
-    marginTop: 5
+    marginTop: 5,
   },
   avatar_friend: {
     height: 55,

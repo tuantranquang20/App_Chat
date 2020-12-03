@@ -16,8 +16,8 @@ export default class LoginForm extends Component {
   };
 
   state = {
-    phonenumber: "",
-    password: "",
+    phonenumber: "0367173693",
+    password: "pass1234",
     fullName: ""
   };
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { requestLogin } from "@app/constants/Api";
+import { requestLogin, requestCreateUser } from "@app/constants/Api";
 import AuthScreen from "./authContainer";
 import AsyncStorage from "@react-native-community/async-storage";
 import NavigationUtil from "@app/navigation/NavigationUtil";
@@ -11,24 +11,44 @@ export default class LoginScreen extends Component {
   };
 
   _simulateLogin = async (username, password) => {
+    this.setState({ isLoading: true });
     try {
       const result = await requestLogin(username, password);
       await AsyncStorage.setItem("TOKEN", result?.token);
       const tk = await AsyncStorage.getItem("TOKEN");
       if (tk) {
-        NavigationUtil.navigate("Home");
+        NavigationUtil.navigate("User", { params: result.data.user });
       }
+      this.setState({ isLoggedIn: true, isLoading: false });
     } catch (error) {
       console.log(error);
     }
   };
 
-  _simulateSignup = (username, password, fullName) => {
+  _simulateSignup = async (username, password, fullName, email) => {
     this.setState({ isLoading: true });
-    setTimeout(
-      () => this.setState({ isLoggedIn: true, isLoading: false }),
-      1000
-    );
+    // setTimeout(
+    //   () => {
+
+    //     this.setState({ isLoggedIn: true, isLoading: false })},
+    //   1000
+    // );
+    try {
+      const result = await requestCreateUser(
+        username,
+        password,
+        fullName,
+        email
+      );
+      await AsyncStorage.setItem("TOKEN", result?.token);
+      const tk = await AsyncStorage.getItem("TOKEN");
+      if (tk) {
+        NavigationUtil.navigate("User", { params: result.data?.data });
+      }
+      this.setState({ isLoggedIn: true, isLoading: false });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {

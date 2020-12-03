@@ -9,7 +9,8 @@ import {
   Dimensions,
   TextInput,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  FlatList
 } from "react-native";
 // import { Text, View } from "react-native-animatable/index";
 import FormSearch from "../components/FormSearch";
@@ -24,24 +25,41 @@ import OneSignal from "react-native-onesignal";
 import reactotron from "reactotron-react-native";
 import AwsomeFont from "../components/Icon";
 import WHeader from "@app/components/WHeader";
+import { requestRoomChat } from "@app/constants/Api";
+import AsyncStorage from "@react-native-community/async-storage";
+import { connect } from "react-redux";
+import { getRoomAction } from "@action";
 
 const { width, height } = Dimensions.get("window");
-export default class UserScreen extends Component {
-  async componentDidMount() {}
+class UserScreen extends Component {
+  // async componentDidMount() {
+  //   // console.log(await AsyncStorage.getItem("TOKEN"));
+  //   try {
+  //     const res = await requestRoomChat();
+  //     console.log(res, "12345");
+  //   } catch (error) {
+  //     console.log(error, "99999");
+  //   }
+  // }
+  componentDidMount = async () => {
+    await this.props.getRoomAction();
+  };
   state = {
     search: ""
   };
+
   render() {
+    const DATA = this.props.stateRoom.data?.data;
+    console.log(DATA, " tuan sa le");
+
+    const user = this.props.navigation.state.params.params;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.view_header}>
-              <Image
-                style={styles.user_avatar}
-                source={require("../assets/images/ic_user.png")}
-              />
-              <Text style={styles.name_user}>Tuấn Thái Bình</Text>
+              <Image style={styles.user_avatar} source={{ uri: user.avatar }} />
+              <Text style={styles.name_user}>{user.name}</Text>
             </View>
           </View>
           <FormSearch
@@ -54,11 +72,18 @@ export default class UserScreen extends Component {
             }}
             maxLength={100}
           />
-          <CustomFriends
+          {/* <CustomFriends
             source={require("../assets/images/ic_user.png")}
             nameFriend={"Hiển Mixi"}
             preMessage={"M thấy t đẹp trai k?"}
             time={"09:15"}
+          /> */}
+          <FlatList
+            data={DATA || []}
+            renderItem={(item, index) => {
+              console.log(item, " tuan sa le");
+              return <CustomFriends source={{ uri: item.item?.avatar }} nameFriend={item.item?.name} />;
+            }}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -96,3 +121,16 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Medium"
   }
 });
+
+const mapStateToProps = state => ({
+  stateRoom: state.roomReducer
+});
+
+const mapDispatchToProps = {
+  getRoomAction
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserScreen);

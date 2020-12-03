@@ -12,7 +12,8 @@ export default class SignupForm extends Component {
   state = {
     phonenumber: "",
     password: "",
-    fullName: ""
+    fullName: "",
+    email: "",
   };
 
   hideForm = async () => {
@@ -26,7 +27,7 @@ export default class SignupForm extends Component {
   };
 
   render() {
-    const { phonenumber, password, fullName } = this.state;
+    const { phonenumber, password, fullName, email } = this.state;
     const { isLoading, onLoginLinkPress, onSignupPress } = this.props;
     const isValid = phonenumber !== "" && password !== "" && fullName !== "";
     return (
@@ -46,13 +47,25 @@ export default class SignupForm extends Component {
           <CustomTextInput
             ref={ref => (this.emailInputRef = ref)}
             placeholder={"Số điện thoại"}
-            keyboardType={"email-address"}
+            keyboardType={"numeric"}
             editable={!isLoading}
             returnKeyType={"next"}
             blurOnSubmit={false}
             withRef={true}
             onSubmitEditing={() => this.passwordInputRef.focus()}
             onChangeText={value => this.setState({ phonenumber: value })}
+            isEnabled={!isLoading}
+          />
+          <CustomTextInput
+            ref={ref => (this.emailInputRef = ref)}
+            placeholder={"Email"}
+            keyboardType={"email-address"}
+            editable={!isLoading}
+            returnKeyType={"next"}
+            blurOnSubmit={false}
+            withRef={true}
+            onSubmitEditing={() => this.passwordInputRef.focus()}
+            onChangeText={value => this.setState({ email: value })}
             isEnabled={!isLoading}
           />
           <CustomTextInput
@@ -74,7 +87,7 @@ export default class SignupForm extends Component {
             delay={400}
           >
             <CustomButton
-              onPress={() => onSignupPress(phonenumber, password, fullName)}
+              onPress={() => onSignupPress(phonenumber, password, fullName, email)}
               isEnabled={isValid}
               isLoading={isLoading}
               buttonStyle={styles.createAccountButton}
